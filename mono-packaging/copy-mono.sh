@@ -186,6 +186,8 @@ _copy_runtime_assets() {
         libMonoNative_target_name=libmono-native-unified.dylib
         libMonoNative2_name=libmono-native-compat.0.dylib
         libMonoNative2_target_name=libmono-native-compat.dylib
+        libIntl_name=libintl.8.dylib
+        libIntl_target_name=libintl.dylib
     else # Linux
         mono_runtime_path=/usr/bin/mono-sgen
         mono_lib_path=/usr/lib
@@ -200,6 +202,7 @@ _copy_runtime_assets() {
     local mono_libMonoNative2_path=$mono_lib_path/$libMonoNative2_name
     local mono_libMonoPosixHelper_path=$mono_lib_path/$libMonoPosixHelper_name
     local mono_libMonoBtlsShared_path=$mono_lib_path/$libMonoBtlsShared_name
+    local mono_libIntl_path=$mono_lib_path/$libIntl_name
     local mono_config_path=$mono_etc_path/config
     local mono_machine_config_path=$mono_etc_path/4.5/machine.config
 
@@ -238,10 +241,12 @@ _copy_runtime_assets() {
 
     if [ "$os" = "$OS_MAC" ]; then
         _verify_file "$mono_libMonoNative2_path"
-
         target_libMonoNative2_path=$target_lib_path/$libMonoNative2_target_name
-
         cp "$mono_libMonoNative2_path" "$target_libMonoNative2_path"
+
+        _verify_file "$mono_libIntl_path"
+        target_libIntl_path=$target_lib_path/$libIntl_target_name
+        cp "$mono_libIntl_path" "$target_libIntl_path"
     fi
 
     cp "$mono_libMonoBtlsShared_path" "$target_libMonoBtlsShared_path"
